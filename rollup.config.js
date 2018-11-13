@@ -17,7 +17,6 @@ export default [
     ],
     external: [
       'react',
-      'styled-components',
       'react-transition-group',
       'prop-types'
     ],

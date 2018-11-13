@@ -107,7 +107,7 @@ export default class Drawer extends Component {
               <div style={{
                 width: '100%',
                 height: 55,
-                lineHeight: 55,
+                lineHeight: '55px',
                 borderBottom: '1px solid rgba(235, 235, 235, 1)',
                 fontSize: 14,
                 color: 'rgba(0, 0, 0, 0.647058823529412)',
