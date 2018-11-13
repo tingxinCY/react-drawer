@@ -1,2 +1,2 @@
 # react-drawer
-抽屉UI组件
+Drawer is a panel that is  slides in from the side
