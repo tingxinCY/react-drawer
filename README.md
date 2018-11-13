@@ -48,10 +48,16 @@ class App extends React.Component {
   render() {
     return (
       <div style={{
-        position: relative;
+        position: 'relative',
+        width: '100%',
+        height: 800
       }}>
         <a onClick={this.handleOpen}>open</a>
-        <Drawer visible={this.state.visible}  onCancel={this.handleClose}/>
+        <Drawer 
+          visible={this.state.visible} 
+          onCancel={this.handleClose}
+          mask={true}
+        />
       </div>
     );
   }
