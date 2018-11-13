@@ -1,78 +1,7 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import Transition from 'react-transition-group/Transition';
 import PropTypes from 'prop-types';
 import close from './close.svg';
-
-const Viewport = styled.div`
-  position: absolute;
-  width: ${props => (props.mask ? '100%' : `${props.width}px`)};
-  height: 100%;
-  right: ${props => props.right};
-  z-index: ${props => props.zIndex || 1000};
-  top: 0;
-`;
-
-const Mask = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  transition: ${props => `opacity ${props.duration}ms ease-in-out`};
-  opacity: ${props => props.opacity};
-`;
-
-const Container = styled.div`
-  transition: ${props => `right ${props.duration}ms ease-in-out`};
-  position: absolute;
-  top: 0;
-  right: ${props => `${props.right}px`};
-  width: ${props => `${props.width}px`};
-  height: 100%;
-  background-color: white;
-  z-index: ${props => props.zIndex || 1000};
-  border-radius: 4px 0 0 4px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-`;
-
-const Header = styled.header.attrs({
-  height: 55,
-})`
-  width: 100%;
-  height: ${props => `${props.height}px`};
-  line-height: ${props => `${props.height}px`};
-  border-bottom: 1px solid rgba(235, 235, 235, 1);
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.647058823529412);
-  box-sizing: border-box;
-  font-weight: 650;
-  display: flex;
-`;
-
-const HeaderContent = styled.div`
-  flex-grow: 1;
-  padding-left: 20px;
-`;
-
-const CloseBtn = styled.a`
-  width: 55px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const Content = styled.div`
-  flex-grow: 1;
-  overflow: auto;
-  height: 0;
-  box-sizing: border-box;
-  padding: 20px;
-`;
 
 export default class Drawer extends Component {
   constructor(props) {
@@ -128,38 +57,89 @@ export default class Drawer extends Component {
   }
 
   render() {
+    const { mask, zIndex, width, duration } = this.props;
     return (
       <Transition in={this.props.visible} timeout={this.duration}>
         {transitionState => (
-          <Viewport
-            right={this.transitionViewportRight[transitionState]}
-            mask={this.props.mask ? 1 : 0}
-            {...this.defaultStyle}
+          <div 
+            style={{
+              position: 'absolute',
+              width: mask ? '100%' : width,
+              height: '100%',
+              right: this.transitionViewportRight[transitionState],
+              zIndex: zIndex || 1000,
+              top: 0,
+            }}
           >
             {this.props.mask && (
-              <Mask
-                opacity={this.transitionMaskOpacity[transitionState]}
+              <div
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  top: 0,
+                  left: 0,
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  transition: `opacity ${duration}ms ease-in-out`,
+                  opacity: this.transitionMaskOpacity[transitionState]
+                }}
                 onClick={this.onClickMask}
-                duration={this.duration}
               />
             )}
 
-            <Container
-              duration={this.duration}
-              {...this.defaultStyle}
+            <div
               onClick={this.onClickContainer}
-              right={this.transitionContainerRight[transitionState]}
+              style={{
+                transition: `right ${duration}ms ease-in-out`,
+                position: 'absolute',
+                top: 0,
+                right: this.transitionContainerRight[transitionState],
+                width: width,
+                height: '100%',
+                backgroundColor: 'white',
+                zIndex: zIndex || 1000,
+                borderRadius: '4px 0 0 4px',
+                display: 'flex',
+                flexDirection: 'column',
+                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)'
+              }}
             >
-              <Header>
-                <HeaderContent>{this.props.title}</HeaderContent>
-                <CloseBtn onClick={this.onClose}><img width={16} height={16} src={close} alt="close" /></CloseBtn>
-              </Header>
+              <div style={{
+                width: '100%',
+                height: 55,
+                lineHeight: 55,
+                borderBottom: '1px solid rgba(235, 235, 235, 1)',
+                fontSize: 14,
+                color: 'rgba(0, 0, 0, 0.647058823529412)',
+                boxSizing: 'border-box',
+                fontWeight: 650,
+                display: 'flex'
+              }}>
+                <div style={{
+                  flexGrow: 1,
+                  paddingLeft: 20
+                }}>{this.props.title}</div>
+                <span style={{
+                    width: 55,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    cursor: 'pointer'
+                  }} 
+                  onClick={this.onClose}><img width={16} height={16} src={close} alt="close" /></span>
+              </div>
 
-              <Content>
+              <div style={{
+                flexGrow: 1,
+                overflow: 'auto',
+                height: 0,
+                boxSizing: 'border-box',
+                padding: 20
+              }}>
                 {this.props.children}
-              </Content>
-            </Container>
-          </Viewport>
+              </div>
+            </div>
+          </div>
         )}
       </Transition>
     );
