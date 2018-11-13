@@ -4,7 +4,7 @@ Drawer is a panel that is  slides in from the side
 ## Install
 
 ```bash
-$ tnpm install react-drawer-ui --save
+$ npm install react-drawer-ui --save
 ```
 
 ## Options
